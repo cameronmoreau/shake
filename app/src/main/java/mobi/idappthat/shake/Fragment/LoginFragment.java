@@ -1,14 +1,15 @@
 package mobi.idappthat.shake.Fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,25 +17,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.Request;
+import com.facebook.RequestBatch;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.prefs.Preferences;
 
 import mobi.idappthat.shake.Activity.MainActivity;
 import mobi.idappthat.shake.R;
 
 
-public class LoginFragment extends Fragment implements
-        Session.StatusCallback, Request.GraphUserCallback, View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "MainFragment";
     private UiLifecycleHelper uiHelper;
@@ -63,11 +71,10 @@ public class LoginFragment extends Fragment implements
         authButton = (LoginButton) view.findViewById(R.id.authButton);
         bSkip = (Button) view.findViewById(R.id.buttonSkip);
         tvSignUp = (TextView) view.findViewById(R.id.tvSignUp);
-        //tvSignUp.set
 
         bSkip.setOnClickListener(this);
         authButton.setReadPermissions(Arrays.asList("email", "public_profile"));
-
+        authButton.setFragment(this);
 
         printKeyHash(getActivity());
 
@@ -78,49 +85,14 @@ public class LoginFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        uiHelper = new UiLifecycleHelper(getActivity(), this);
+        uiHelper = new UiLifecycleHelper(getActivity(), callback);
         uiHelper.onCreate(savedInstanceState);
-
-        //mData = getActivity().getSharedPreferences(DATA_FILE, Context.MODE_PRIVATE);
-
-    }
-
-    private void onSessionStateChange(Session session, SessionState state,
-                                      Exception exception) {
-        if(state.isOpened()) {
-            Request.executeMeRequestAsync(session, this);
-            Log.d(TAG, "Request sent");
-        } else if(state.isClosed()) {
-            Log.i(TAG, "Logged out...");
-        }
-    }
-
-    @Override
-    public void call(Session session, SessionState sessionState, Exception e) {
-        onSessionStateChange(session, sessionState, e);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Session session = Session.getActiveSession();
-        if (session != null &&
-                (session.isOpened() || session.isClosed()) ) {
-            onSessionStateChange(session, session.getState(), null);
-        }
         uiHelper.onResume();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        uiHelper.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        uiHelper.onPause();
     }
 
     @Override
@@ -130,20 +102,113 @@ public class LoginFragment extends Fragment implements
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        uiHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onCompleted(GraphUser graphUser, Response response) {
-        if (response != null) {
-            SharedPreferences.Editor editor = mData.edit();
-            editor.putString(KEY_AUTH, "true");
-            editor.putString(USERID, graphUser.getId());
-            editor.putString(NAME, graphUser.getUsername());
-            editor.apply();
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
         }
+    };
+
+    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+        if (state.isOpened()) {
+
+            String[] requestIds = {"me"};
+
+            RequestBatch requestBatch = new RequestBatch();
+            for (final String requestId : requestIds) {
+                requestBatch.add(new Request(Session.getActiveSession(),
+                        requestId, null, null, new Request.Callback() {
+                    public void onCompleted(Response response) {
+                        GraphObject graphObject = response.getGraphObject();
+
+                        String sId = "", sToken = "", sEmail = "", sName = "";
+
+                        if (graphObject != null) {
+                            if (graphObject.getProperty("id") != null) {
+                                sId = String.format("%s",
+                                        graphObject.getProperty("id"));
+                            }
+
+                            if (graphObject.getProperty("name") != null) {
+                                sName = String.format("%s",
+                                        graphObject.getProperty("name"));
+                            }
+
+                            if (graphObject.getProperty("email") != null) {
+                                sEmail = String.format("%s",
+                                        graphObject.getProperty("email"));
+                            }
+
+                            if (graphObject.getProperty("access_token") != null) {
+                                sToken = String.format("%s",
+                                        graphObject.getProperty("access_token"));
+                            }
+                        }
+
+                        //Save fb id
+                        /*SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putInt(getString(R.string.saved_high_score), newHighScore);
+                        editor.commit();*/
+
+                        String uploadBuilder = new Uri.Builder()
+                                .scheme("http")
+                                .authority("52.11.11.232")
+                                .appendPath("fb_reg")
+                                .appendPath(sId)
+                                .appendPath(sName)
+                                .appendPath(sEmail).build().toString();
+
+                        postToServer(uploadBuilder);
+                    }
+                }));
+            }
+            requestBatch.executeAsync();
+
+        }
+    }
+
+    private void postToServer(String server) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = server;
+
+        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.GET, url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences prefs = getActivity().getSharedPreferences(Preferences.pref_file, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString(getResources().getString(R.string.pref_facebook_id), response);
+                        editor.commit();
+
+                        Intent i = new Intent(context, MainActivity.class);
+                        startActivity(i);
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ERROR", "failed to create account");
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
     public static String printKeyHash(Activity context) {
