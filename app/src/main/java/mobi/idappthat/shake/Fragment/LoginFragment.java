@@ -83,10 +83,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Sha
 
         Toast.makeText(context, "Don't shake me, bro!", Toast.LENGTH_SHORT).show();
 
-
-
-
-
         authButton = (LoginButton) view.findViewById(R.id.authButton);
         bSkip = (Button) view.findViewById(R.id.buttonSkip);
         tvSignUp = (TextView) view.findViewById(R.id.tvSignUp);

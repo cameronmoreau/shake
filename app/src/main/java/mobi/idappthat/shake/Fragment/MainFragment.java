@@ -2,6 +2,7 @@ package mobi.idappthat.shake.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import mobi.idappthat.shake.Activity.CategoryActivity;
 import mobi.idappthat.shake.R;
 
 /**
@@ -95,10 +97,14 @@ public class MainFragment extends Fragment implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonShake:
-                doJsonStuff();
+                //doJsonStuff();
+                Intent i = new Intent(context, CategoryActivity.class);
+                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.HOBBIES);
+                startActivity(i);
                 break;
-            case R.id.buttonFood:
-                doJsonStuff();
+            case R.id.buttonHobbies:
+                /*Intent i = new Intent(context, CategoryActivity.class);
+                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.HOBBIES);*/
                 break;
         }
     }
