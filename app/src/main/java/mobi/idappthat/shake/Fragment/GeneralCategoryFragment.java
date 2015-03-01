@@ -110,7 +110,8 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
         tvCatView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                int cat = getActivity().getIntent().getIntExtra(CategoryActivity.CATEGORY_TYPE, 1);
+                int cat = getActivity().getIntent().getIntExtra(Category.CATEGORY_TYPE, 1);
+
                 items = null;
                 switch (cat) {
                     case 1:
