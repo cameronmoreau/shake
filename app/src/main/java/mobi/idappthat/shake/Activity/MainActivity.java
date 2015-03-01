@@ -3,7 +3,7 @@ package mobi.idappthat.shake.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import mobi.idappthat.shake.Fragment.RegisterFragment;
+import mobi.idappthat.shake.Fragment.MainFragment;
 import mobi.idappthat.shake.R;
 
 /**
@@ -18,7 +18,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new RegisterFragment())
+                    .add(R.id.container, new MainFragment())
                     .commit();
         }
     }
