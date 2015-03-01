@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -122,7 +123,14 @@ public class MainFragment extends Fragment implements
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(setLocation);
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 80));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(setLocation)
+                .zoom(12)
+                .build();
+
+
+        map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
