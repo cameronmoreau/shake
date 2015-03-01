@@ -1,5 +1,6 @@
 package mobi.idappthat.shake.Fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -165,6 +165,12 @@ public class MainFragment extends Fragment implements
     @Override
     public void onMapLoaded() {
         LatLng setLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.pref_lat), Double.toString(location.getLatitude()));
+        editor.putString(getString(R.string.pref_lng), Double.toString(location.getLongitude()));
+        editor.apply();
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(setLocation);
