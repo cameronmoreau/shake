@@ -1,26 +1,32 @@
 package mobi.idappthat.shake;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
+
+    public static final String DATA_FILE = "DATA_FILE";
+    public static final String KEY_AUTH = "KEY_AUTH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+        SharedPreferences mData;
+        mData = getSharedPreferences(DATA_FILE, MODE_PRIVATE);
+
+        //Check if user has already logged in
+        if (savedInstanceState == null && mData.getString(KEY_AUTH, "false").equals("false")) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new LoginFragment())
+                    .commit();
+        } else {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, )
                     .commit();
         }
     }
@@ -46,21 +52,5 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_login, container, false);
-            return rootView;
-        }
     }
 }
