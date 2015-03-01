@@ -1,10 +1,15 @@
 package mobi.idappthat.shake.Fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +23,8 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import mobi.idappthat.shake.R;
@@ -44,16 +51,22 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
 
         LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
         authButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+
+
+        printKeyHash(getActivity());
+
+
         return view;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // uiHelper = new UiLifecycleHelper(getActivity(), this);
-        //uiHelper.onCreate(savedInstanceState);
+        uiHelper = new UiLifecycleHelper(getActivity(), this);
+        uiHelper.onCreate(savedInstanceState);
 
-        mData = getActivity().getSharedPreferences(DATA_FILE, Context.MODE_PRIVATE);
+        //mData = getActivity().getSharedPreferences(DATA_FILE, Context.MODE_PRIVATE);
+
     }
 
     private void onSessionStateChange(Session session, SessionState state,
@@ -115,5 +128,41 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
             editor.putString(NAME, graphUser.getUsername());
             editor.apply();
         }
+    }
+
+    public static String printKeyHash(Activity context) {
+        PackageInfo packageInfo;
+        String key = null;
+        try {
+
+            //getting application package name, as defined in manifest
+            String packageName = context.getApplicationContext().getPackageName();
+
+            //Retriving package info
+            packageInfo = context.getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_SIGNATURES);
+
+            Log.e("Package Name=", context.getApplicationContext().getPackageName());
+
+            for (Signature signature : packageInfo.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                key = new String(Base64.encode(md.digest(), 0));
+
+                // String key = new String(Base64.encodeBytes(md.digest()));
+                Log.e("Key Hash=", key);
+
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("Name not found", e1.toString());
+        }
+
+        catch (NoSuchAlgorithmException e) {
+            Log.e("No such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
+
+        return key;
     }
 }

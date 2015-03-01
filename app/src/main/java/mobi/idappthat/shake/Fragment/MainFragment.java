@@ -2,17 +2,11 @@ package mobi.idappthat.shake.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
-import android.provider.SyncStateContract;
-import android.support.v4.app.Fragment;
->>>>>>> origin
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +14,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import mobi.idappthat.shake.Activity.MainActivity;
 import mobi.idappthat.shake.R;
 
 /**
@@ -86,24 +83,37 @@ public class MainFragment extends Fragment implements
         return view;
     }
 
-    private void centerMapOnMyLocation() {
-
-
-        /*if (location != null) {
-            myLocation = new LatLng(location.getLatitude(),
-                    location.getLongitude());
-        }*/
-        //map.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(myLocation, myLocation), 0));
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.buttonShake:
+                doJsonStuff();
+                break;
             case R.id.buttonFood:
-                Intent i = new Intent(context, MainActivity.class);
-                startActivity(i);
+                doJsonStuff();
                 break;
         }
+    }
+
+    private void doJsonStuff() {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = "http://api.randomuser.me/";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Toast.makeText(context, "Response is: "+ response.substring(0,500), Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Didnt work", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
     @Override
