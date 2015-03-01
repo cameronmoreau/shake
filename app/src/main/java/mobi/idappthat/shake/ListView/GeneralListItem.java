@@ -14,12 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import mobi.idappthat.shake.Activity.ViewActivity;
+import mobi.idappthat.shake.Extra.CircleTransform;
 import mobi.idappthat.shake.Model.GeneralItem;
 import mobi.idappthat.shake.R;
 
@@ -80,9 +83,11 @@ public class GeneralListItem implements PimpinListItem  {
         holder.price2.setText(text[1]);
         holder.title.setText(item.getName());
 
-        holder.icon.setImageResource(R.mipmap.ic_launcher);
-        new ImageDownloader(holder.icon)
-                .execute(item.getImageUrl());
+
+        Picasso.with(context).load(item.getImageUrl())
+                .resize(175, 175)
+                .transform(new CircleTransform())
+                .into(holder.icon);
 
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -96,30 +101,6 @@ public class GeneralListItem implements PimpinListItem  {
 
 
         return convertView;
-    }
-
-    class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public ImageDownloader(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String url = urls[0];
-            Bitmap mIcon = null;
-            try {
-                InputStream in = new java.net.URL(url).openStream();
-                mIcon = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-            }
-            return mIcon;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
     }
 
 }
