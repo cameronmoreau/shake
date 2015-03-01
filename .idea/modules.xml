@@ -2,6 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/Shake.iml" filepath="$PROJECT_DIR$/Shake.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Shake.iml" filepath="$PROJECT_DIR$/Shake.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/shake.iml" filepath="$PROJECT_DIR$/shake.iml" />
+>>>>>>> origin/master
+>>>>>>> a82c4fb52aef29d3aa39ab934250d2ecc4e15140
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/shake.iml" filepath="$PROJECT_DIR$/shake.iml" />
     </modules>

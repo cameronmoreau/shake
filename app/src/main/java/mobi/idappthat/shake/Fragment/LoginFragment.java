@@ -55,7 +55,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener, ShakeDetector.Listener{
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "MainFragment";
     private UiLifecycleHelper uiHelper;
@@ -93,17 +93,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Sha
 
         printKeyHash(getActivity());
 
-        SensorManager sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
-        ShakeDetector sD = new ShakeDetector(this);
-        sD.start(sensorManager);
-
-
         return view;
-    }
-
-    public void hearShake() {
-        Log.d("SHAKER LOG","SHAKING DETECTED");
-        Toast.makeText(context, "Don't shake me, bro!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

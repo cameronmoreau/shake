@@ -1,26 +1,31 @@
 package mobi.idappthat.shake.Model;
 
+import android.graphics.drawable.Drawable;
+
+import java.io.InputStream;
+import java.net.URL;
+
 /**
  * Created by Cameron on 3/1/15.
  */
 public class GeneralItem {
 
-    private String name;
+    private String name, imageUrl;
     private int rating;
     private int price;
-    private double lat, lng;
 
     public GeneralItem() {
 
     }
 
-    public GeneralItem(String name, int rating, int price, double lat, double lng) {
+    public GeneralItem(String name, int rating, int price, String imageUrl) {
         this.name = name;
+        this.imageUrl = imageUrl;
         this.rating = rating;
         this.price = price;
-        this.lat = lat;
-        this.lng = lng;
     }
+
+    public String getImageUrl() { return imageUrl; }
 
     public String getName() {
         return name;
@@ -59,21 +64,5 @@ public class GeneralItem {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
     }
 }
