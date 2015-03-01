@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         tvSignUp = (TextView) view.findViewById(R.id.tvSignUp);
 
         bSkip.setOnClickListener(this);
-        authButton.setReadPermissions(Arrays.asList("email", "public_profile"));
+        authButton.setReadPermissions(Arrays.asList("email", "public_profile", "user_events"));
         authButton.setFragment(this);
 
         printKeyHash(getActivity());
