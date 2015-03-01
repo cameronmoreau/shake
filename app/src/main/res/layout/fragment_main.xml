@@ -9,18 +9,21 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Image later"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/buttonShake" />
-
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:name="com.google.android.gms.maps.MapFragment"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/shake"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:scaleType="fitCenter"
+            android:id="@+id/buttonShake" />
 
     </FrameLayout>
 
@@ -35,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
-            android:id="@+id/buttonFood" />
+            android:id="@+id/buttonHobbies" />
 
         <ImageButton
             android:src="@mipmap/cat_shopping"
@@ -43,15 +46,15 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
-            android:id="@+id/buttonEntertainment" />
+            android:id="@+id/buttonShopping" />
 
         <ImageButton
-            android:src="@mipmap/cat_dining"
+            android:src="@mipmap/cat_food"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
-            android:id="@+id/buttonSports" />
+            android:id="@+id/buttonFood" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
-            android:id="@+id/buttonOutdoors" />
+            android:id="@+id/buttonFun" />
 
         <ImageButton
             android:src="@mipmap/cat_outdoors"
@@ -74,7 +77,7 @@
 
             android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
-            android:id="@+id/buttonNightlife" />
+            android:id="@+id/buttonOutdoors" />
 
         <ImageButton
             android:src="@mipmap/cat_sports"
@@ -82,7 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
-            android:id="@+id/buttonShopping" />
+            android:id="@+id/buttonSports" />
 
     </LinearLayout>
 

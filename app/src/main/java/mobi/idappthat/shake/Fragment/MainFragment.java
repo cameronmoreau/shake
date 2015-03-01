@@ -35,9 +35,9 @@ import mobi.idappthat.shake.R;
 public class MainFragment extends Fragment implements
         View.OnClickListener, GoogleMap.OnMapLoadedCallback, LocationListener {
 
-    private ImageButton ibFood, ibEntertainment, ibSports, ibOutdoors, ibNightlife, ibShopping;
+    private ImageButton ibFood, ibFun, ibSports, ibOutdoors, ibHobbies, ibShopping;
     private GoogleMap map;
-    private Button bShake;
+    private ImageButton bShake;
     private Context context;
 
     private LocationManager locationManager;
@@ -53,13 +53,13 @@ public class MainFragment extends Fragment implements
         context = view.getContext();
 
         ibFood = (ImageButton) view.findViewById(R.id.buttonFood);
-        ibEntertainment = (ImageButton) view.findViewById(R.id.buttonEntertainment);
+        ibHobbies = (ImageButton) view.findViewById(R.id.buttonHobbies);
         ibSports = (ImageButton) view.findViewById(R.id.buttonSports);
         ibOutdoors = (ImageButton) view.findViewById(R.id.buttonOutdoors);
-        ibNightlife = (ImageButton) view.findViewById(R.id.buttonNightlife);
+        ibFun = (ImageButton) view.findViewById(R.id.buttonFun);
         ibShopping = (ImageButton) view.findViewById(R.id.buttonShopping);
 
-        bShake = (Button) view.findViewById(R.id.buttonShake);
+        bShake = (ImageButton) view.findViewById(R.id.buttonShake);
 
         if(map == null) {
             map = ((MapFragment) getActivity().getFragmentManager()
@@ -74,10 +74,10 @@ public class MainFragment extends Fragment implements
         location = locationManager.getLastKnownLocation(provider);
 
         ibFood.setOnClickListener(this);
-        ibEntertainment.setOnClickListener(this);
+        ibHobbies.setOnClickListener(this);
         ibSports.setOnClickListener(this);
         ibOutdoors.setOnClickListener(this);
-        ibNightlife.setOnClickListener(this);
+        ibFun.setOnClickListener(this);
         ibShopping.setOnClickListener(this);
         bShake.setOnClickListener(this);
 
