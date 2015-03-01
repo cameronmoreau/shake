@@ -49,11 +49,7 @@
             android:id="@+id/buttonShopping" />
 
         <ImageButton
-<<<<<<< HEAD
             android:src="@mipmap/cat_food"
-=======
-            android:src="@mipmap/ic_launcher"
->>>>>>> origin/master
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
