@@ -178,7 +178,68 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
             } else {
                 getFood(choice);
             }
-        }
+        } else if(type == Category.TRAVEL)
+            getFlight();
+    }
+
+    private void getFlight() {
+        listItems.clear();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String uId = sharedPref.getString(getString(R.string.pref_user_id), "-1");
+        String uLat = sharedPref.getString(getString(R.string.pref_lat), "0");
+        String uLng = sharedPref.getString(getString(R.string.pref_lng), "0");
+
+        String uploadBuilder = new Uri.Builder()
+                .scheme("http")
+                .authority("52.11.11.232")
+                .appendPath("shake") //url
+                .appendPath(uId) // id
+                .appendPath(Integer.toString(Category.TRAVEL)) //course
+                .appendPath(Integer.toString(1)) //fine
+                .appendPath(uLat) // lat
+                .appendPath(uLng).build().toString(); //lng
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                uploadBuilder, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("results");
+
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        Log.e("TEST", jsonArray.getJSONObject(i).toString());
+                        /*GeneralItem item = new GeneralItem(
+                                jsonArray.getJSONObject(i).getString("name"),
+                                jsonArray.getJSONObject(i).getInt("rating"),
+                                2,
+                                jsonArray.getJSONObject(i).getString("image")
+                        );
+                        listItems.add(new GeneralListItem(context, item));*/
+                        Intent ii = new Intent(context, Activity.class);
+                        startActivity(ii);
+                    }
+
+                    arrayAdapter = new PimpinListViewAdapter(context, listItems);
+                    lv.setAdapter(arrayAdapter);
+                    lv.invalidateViews();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("ERROR", e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ERROR", error.toString());
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
     }
 
     private void getFood(int cateee) {

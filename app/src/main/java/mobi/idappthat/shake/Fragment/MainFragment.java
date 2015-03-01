@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.squareup.seismic.ShakeDetector;
 
+import java.util.Random;
+
 import mobi.idappthat.shake.Activity.CategoryActivity;
 import mobi.idappthat.shake.Model.Category;
 import mobi.idappthat.shake.R;
@@ -110,7 +112,7 @@ public class MainFragment extends Fragment implements
         Intent i = new Intent(context, CategoryActivity.class);
         switch (v.getId()) {
             case R.id.buttonShake:
-                doJsonStuff();
+                randomShake();
                 break;
             case R.id.buttonHobbies:
                 i.putExtra(Category.CATEGORY_TYPE, Category.HOBBIES);
@@ -205,15 +207,23 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void hearShake() {
-        Toast.makeText(context, "SHAKE", Toast.LENGTH_SHORT).show();
+        randomShake();
+    }
 
+    private void randomShake() {
         Handler handler = new Handler();
         bShake.startAnimation(spinAnimation);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 bShake.clearAnimation();
+
+                Intent i = new Intent(context, CategoryActivity.class);
+                int n[] = { Category.FUN, Category.TRAVEL, Category.DINING };
+                Random rann = new Random();
+                i.putExtra(Category.CATEGORY_TYPE, n[rann.nextInt(n.length)]);
+                startActivity(i);
             }
-        }, 2000);
+        }, 1500);
     }
 }
