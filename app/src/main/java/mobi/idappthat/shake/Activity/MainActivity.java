@@ -30,8 +30,10 @@ public class MainActivity extends ActionBarActivity {
         //TextView mTextView = (TextView) findViewById(R.id.text);
         //mTextView.setTypeface(mTypeface);
 
+        boolean checkData = mData.getString(KEY_AUTH, "false").equals("false");
+
         //Check if user has already logged in
-        if (savedInstanceState == null && mData.getString(KEY_AUTH, "false").equals("false")) {
+        if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new LoginFragment())
                     .commit();

@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        uiHelper = new UiLifecycleHelper(getActivity(), this);
+       // uiHelper = new UiLifecycleHelper(getActivity(), this);
         //uiHelper.onCreate(savedInstanceState);
 
         mData = getActivity().getSharedPreferences(DATA_FILE, Context.MODE_PRIVATE);
