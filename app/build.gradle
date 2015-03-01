@@ -26,4 +26,7 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:3.+'
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+    compile 'com.squareup:seismic:1.0.1'
+
+
 }

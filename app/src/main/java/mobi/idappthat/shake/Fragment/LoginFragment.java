@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -41,9 +42,20 @@ import java.util.prefs.Preferences;
 
 import mobi.idappthat.shake.Activity.MainActivity;
 import mobi.idappthat.shake.R;
+import android.app.Activity;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.squareup.seismic.ShakeDetector;
+
+import static android.view.Gravity.CENTER;
+import static android.view.ViewGroup.LayoutParams;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+
+public class LoginFragment extends Fragment implements View.OnClickListener, ShakeDetector.Listener{
 
     private static final String TAG = "MainFragment";
     private UiLifecycleHelper uiHelper;
@@ -69,6 +81,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         context = view.getContext();
 
+        Toast.makeText(context, "Don't shake me, bro!", Toast.LENGTH_SHORT).show();
+
+
+
+
+
         authButton = (LoginButton) view.findViewById(R.id.authButton);
         bSkip = (Button) view.findViewById(R.id.buttonSkip);
         tvSignUp = (TextView) view.findViewById(R.id.tvSignUp);
@@ -79,8 +97,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         printKeyHash(getActivity());
 
+        SensorManager sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+        ShakeDetector sD = new ShakeDetector(this);
+        sD.start(sensorManager);
+
 
         return view;
+    }
+
+    public void hearShake() {
+        Log.d("SHAKER LOG","SHAKING DETECTED");
+        Toast.makeText(context, "Don't shake me, bro!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
