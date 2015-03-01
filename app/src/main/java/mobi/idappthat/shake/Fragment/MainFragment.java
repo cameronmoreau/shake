@@ -97,7 +97,6 @@ public class MainFragment extends Fragment implements
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String fbId = sharedPref.getString(getString(R.string.pref_facebook_id), "");
-        Toast.makeText(context, fbId, Toast.LENGTH_SHORT).show();
 
         SensorManager sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         ShakeDetector sD = new ShakeDetector(this);

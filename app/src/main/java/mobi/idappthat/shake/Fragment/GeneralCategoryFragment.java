@@ -75,6 +75,8 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
     private PimpinListViewAdapter arrayAdapter;
     private ArrayList<PimpinListItem> listItems;
 
+    private int choice = -1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_general_category, container, false);
@@ -87,20 +89,11 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
         listItems = new ArrayList<>();
 
 
-
-
-
-
-
         arrayAdapter = new PimpinListViewAdapter(context, listItems);
         lv.setAdapter(arrayAdapter);
 
+        setListStuff(type);
 
-        Toast.makeText(context, "type: " + type, Toast.LENGTH_SHORT).show();
-
-        doJsonStuff();
-
-        Toast.makeText(context, "type: " + typeName, Toast.LENGTH_SHORT).show();
 
 
         TextView tvCatView = (TextView)view.findViewById(R.id.etRank);
@@ -125,10 +118,10 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
                         break;
                     case 3:
                         items = new String[]{
-                                "Dinner",
+                                "Breakfast",
                                 "Lunch",
-                                "Coffee",
-                                "Breakfast",};
+                                "Dinner",
+                                "Coffee",};
                         break;
                     case 4:
                         items = new String[]{
@@ -161,7 +154,8 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
                         // Do something with the selection
                         Log.d("asdlga", Integer.toString(item));
                         Log.d("asdlga2",items[item]);
-                        //Toast.makeText(context, Integer.toString(item), Toast.LENGTH_SHORT);
+                        choice = selected + 1;
+                        setListStuff(choice);
                         TextView tv = (TextView) view.findViewById(R.id.etRank);
                         tv.setText(items[selected]);
                     }
@@ -175,7 +169,77 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
         return view;
     }
 
-    private void doJsonStuff() {
+    private void setListStuff(int type) {
+        if(type == Category.FUN)
+            getMovies();
+        else if(type == Category.DINING) {
+            if(choice == -1) {
+                getFood(5);
+            } else {
+                getFood(choice);
+            }
+        }
+    }
+
+    private void getFood(int cateee) {
+        listItems.clear();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String uId = sharedPref.getString(getString(R.string.pref_user_id), "-1");
+        String uLat = sharedPref.getString(getString(R.string.pref_lat), "0");
+        String uLng = sharedPref.getString(getString(R.string.pref_lng), "0");
+
+        String uploadBuilder = new Uri.Builder()
+                .scheme("http")
+                .authority("52.11.11.232")
+                .appendPath("shake") //url
+                .appendPath(uId) // id
+                .appendPath(Integer.toString(Category.DINING)) //course
+                .appendPath(Integer.toString(cateee)) //fine
+                .appendPath(uLat) // lat
+                .appendPath(uLng).build().toString(); //lng
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                uploadBuilder, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("results");
+
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        Log.e("TEST", jsonArray.getJSONObject(i).toString());
+                        GeneralItem item = new GeneralItem(
+                                jsonArray.getJSONObject(i).getString("name"),
+                                jsonArray.getJSONObject(i).getInt("rating"),
+                                2,
+                                jsonArray.getJSONObject(i).getString("image")
+                        );
+                        listItems.add(new GeneralListItem(context, item));
+                    }
+
+                    arrayAdapter = new PimpinListViewAdapter(context, listItems);
+                    lv.setAdapter(arrayAdapter);
+                    lv.invalidateViews();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("ERROR", e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ERROR", error.toString());
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(jsonObjReq);
+    }
+
+    private void getMovies() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String uId = sharedPref.getString(getString(R.string.pref_user_id), "-1");
         String uLat = sharedPref.getString(getString(R.string.pref_lat), "0");
@@ -214,6 +278,7 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
 
                     arrayAdapter = new PimpinListViewAdapter(context, listItems);
                     lv.setAdapter(arrayAdapter);
+                    arrayAdapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

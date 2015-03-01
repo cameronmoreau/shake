@@ -29,8 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="?android:attr/ratingBarStyleIndicator"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:translationX="-20dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
             android:id="@+id/ratingBar" />
 
         <LinearLayout
@@ -42,12 +43,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
+                android:layout_marginRight="4dp"
+                android:textStyle="bold"
                 android:id="@+id/tvPrice" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
+                android:textColor="#B1b1b1"
                 android:id="@+id/tvPrice2" />
         </LinearLayout>
     </LinearLayout>
