@@ -26,9 +26,9 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences mData;
         mData = getSharedPreferences(DATA_FILE, MODE_PRIVATE);
 
-        Typeface mTypeface = Typeface.createFromAsset(getAssets(), "pea_2.ttf");
-        TextView mTextView = (TextView) findViewById(R.id.text);
-        mTextView.setTypeface(mTypeface);
+        //Typeface mTypeface = Typeface.createFromAsset(getAssets(), "pea_2.ttf");
+        //TextView mTextView = (TextView) findViewById(R.id.text);
+        //mTextView.setTypeface(mTypeface);
 
         //Check if user has already logged in
         if (savedInstanceState == null && mData.getString(KEY_AUTH, "false").equals("false")) {
