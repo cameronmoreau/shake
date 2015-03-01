@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import mobi.idappthat.shake.Fragment.GeneralCategoryFragment;
+import mobi.idappthat.shake.Model.Category;
 import mobi.idappthat.shake.R;
 
 /**

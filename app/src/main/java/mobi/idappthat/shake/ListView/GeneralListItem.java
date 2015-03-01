@@ -2,12 +2,22 @@ package mobi.idappthat.shake.ListView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import mobi.idappthat.shake.Activity.ViewActivity;
 import mobi.idappthat.shake.Model.GeneralItem;
@@ -64,11 +74,15 @@ public class GeneralListItem implements PimpinListItem  {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //holder.icon.setBackgroundResource();
+
         String text[] = item.getPriceText().split(",");
         holder.price.setText(text[0]);
         holder.price2.setText(text[1]);
         holder.title.setText(item.getName());
+
+        holder.icon.setImageResource(R.mipmap.ic_launcher);
+        new ImageDownloader(holder.icon)
+                .execute(item.getImageUrl());
 
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -83,4 +97,29 @@ public class GeneralListItem implements PimpinListItem  {
 
         return convertView;
     }
+
+    class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public ImageDownloader(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap mIcon = null;
+            try {
+                InputStream in = new java.net.URL(url).openStream();
+                mIcon = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+            }
+            return mIcon;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
 }

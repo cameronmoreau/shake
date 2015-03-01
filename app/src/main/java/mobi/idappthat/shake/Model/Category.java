@@ -1,5 +1,11 @@
 package mobi.idappthat.shake.Model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by Cameron on 3/1/15.
  */
@@ -14,6 +20,8 @@ public class Category {
 
     public static final int HOBBIES_TECH = 1;
     public static final int HOBBIES_ARTS = 2;
+
+    public static final int TRAVEL_FLIGHTS = 1;
 
     public static final int DINING_BREAKFAST = 1;
     public static final int DINING_LUNCH = 2;
@@ -54,27 +62,19 @@ public class Category {
         }
     }
 
-    public static String getCategoryType(int categoryType, int subCategoryType) {
-        if(categoryType == 1) {
-            switch(subCategoryType) {
-                case 1:
-                    return "";
-                case 2:
-                    return "";
-                default:
-                    return "";
-            }
-        } else if(categoryType == 2) {
+    public static HashMap<String, List<String>> getCategoryArray() {
+        HashMap<String, List<String>> cats = new HashMap<>();
+        cats.put("Hobbies", Arrays.asList("Tech", "Arts"));
+        cats.put("Travel", Arrays.asList("Flights"));
+        cats.put("Dining", Arrays.asList("Breakfast", "Lunch", "Dinner", "Coffee"));
+        cats.put("Fun", Arrays.asList("Movies", "Music", "Nightlife"));
+        cats.put("Outdoors", Arrays.asList("Hiking", "Swimming", "Parks"));
+        cats.put("Sports", Arrays.asList("Football", "Baseball", "Basketball", "Soccer"));
 
-        } else if(categoryType == 3) {
+        return cats;
+    }
 
-        } else if(categoryType == 4) {
-
-        } else if(categoryType == 5) {
-
-        } else if(categoryType == 6) {
-
-        }
-        return "fuck";
+    public static String getSubCategoryType(int categoryType, int subCategoryType) {
+        return getCategoryArray().keySet().toString();
     }
 }
