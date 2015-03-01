@@ -2,11 +2,13 @@ package mobi.idappthat.shake.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +82,11 @@ public class MainFragment extends Fragment implements
         ibFun.setOnClickListener(this);
         ibShopping.setOnClickListener(this);
         bShake.setOnClickListener(this);
+
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String fbId = sharedPref.getString(getString(R.string.pref_facebook_id), "");
+        Toast.makeText(context, fbId, Toast.LENGTH_SHORT).show();
 
         return view;
     }

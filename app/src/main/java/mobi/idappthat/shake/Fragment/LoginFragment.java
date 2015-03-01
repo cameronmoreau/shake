@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
@@ -138,7 +139,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     public void onCompleted(Response response) {
                         GraphObject graphObject = response.getGraphObject();
 
-                        String sId = "", sToken = "", sEmail = "", sName = "";
+                        String sId = "", sEmail = "", sName = "";
 
                         if (graphObject != null) {
                             if (graphObject.getProperty("id") != null) {
@@ -155,18 +156,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 sEmail = String.format("%s",
                                         graphObject.getProperty("email"));
                             }
-
-                            if (graphObject.getProperty("access_token") != null) {
-                                sToken = String.format("%s",
-                                        graphObject.getProperty("access_token"));
-                            }
                         }
 
                         //Save fb id
-                        /*SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putInt(getString(R.string.saved_high_score), newHighScore);
-                        editor.commit();*/
+                        editor.putString(getString(R.string.pref_facebook_id), sId);
+                        editor.commit();
 
                         String uploadBuilder = new Uri.Builder()
                                 .scheme("http")
@@ -193,13 +189,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 new com.android.volley.Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        SharedPreferences prefs = getActivity().getSharedPreferences(Preferences.pref_file, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString(getResources().getString(R.string.pref_facebook_id), response);
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(getString(R.string.pref_user_id), response);
                         editor.commit();
 
                         Intent i = new Intent(context, MainActivity.class);
                         startActivity(i);
+                        getActivity().finish();
                     }
                 }, new com.android.volley.Response.ErrorListener() {
             @Override

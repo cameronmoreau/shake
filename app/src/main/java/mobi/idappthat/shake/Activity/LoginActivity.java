@@ -1,9 +1,12 @@
 package mobi.idappthat.shake.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import mobi.idappthat.shake.Fragment.LoginFragment;
 import mobi.idappthat.shake.R;
@@ -13,26 +16,30 @@ import mobi.idappthat.shake.R;
  */
 public class LoginActivity extends FragmentActivity {
 
-
-    public static final String DATA_FILE = "DATA_FILE";
-    public static final String KEY_AUTH = "KEY_AUTH";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        SharedPreferences mData;
-        mData = getSharedPreferences(DATA_FILE, MODE_PRIVATE);
 
-
-        boolean checkData = mData.getString(KEY_AUTH, "false").equals("false");
-
-        //Check if user has already logged in
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new LoginFragment())
-                    .commit();
+            if(!hasRegistered()) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container, new LoginFragment())
+                        .commit();
+            } else {
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
         }
+    }
+
+    private boolean hasRegistered() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String fbId = sharedPref.getString(getString(R.string.pref_facebook_id), "");
+        if(fbId.toString().length() > 0) return true;
+
+        return false;
     }
 
 }
