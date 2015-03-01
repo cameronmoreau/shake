@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -27,10 +29,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import mobi.idappthat.shake.Activity.MainActivity;
 import mobi.idappthat.shake.R;
 
 
-public class LoginFragment extends Fragment implements Session.StatusCallback, Request.GraphUserCallback {
+public class LoginFragment extends Fragment implements
+        Session.StatusCallback, Request.GraphUserCallback, View.OnClickListener {
 
     private static final String TAG = "MainFragment";
     private UiLifecycleHelper uiHelper;
@@ -41,6 +45,12 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
     public static final String NAME = "NAME";
     public static final String USERID = "USERID";
 
+    private Context context;
+
+    private LoginButton authButton;
+    private Button bSkip;
+    private TextView tvSignUp;
+
     public LoginFragment() {}
 
     @Override
@@ -48,8 +58,14 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        context = view.getContext();
 
-        LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
+        authButton = (LoginButton) view.findViewById(R.id.authButton);
+        bSkip = (Button) view.findViewById(R.id.buttonSkip);
+        tvSignUp = (TextView) view.findViewById(R.id.tvSignUp);
+        //tvSignUp.set
+
+        bSkip.setOnClickListener(this);
         authButton.setReadPermissions(Arrays.asList("email", "public_profile"));
 
 
@@ -164,5 +180,15 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
         }
 
         return key;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.buttonSkip:
+                Intent i = new Intent(context, MainActivity.class);
+                startActivity(i);
+                break;
+        }
     }
 }
