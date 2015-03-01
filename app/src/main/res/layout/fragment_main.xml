@@ -33,18 +33,18 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/cat_hobbies"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
             android:id="@+id/buttonHobbies" />
 
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/cat_shopping"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
             android:id="@+id/buttonShopping" />
 
@@ -52,7 +52,7 @@
             android:src="@mipmap/cat_food"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
             android:id="@+id/buttonFood" />
     </LinearLayout>
@@ -63,26 +63,27 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/cat_fun"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
             android:id="@+id/buttonFun" />
 
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/cat_outdoors"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+
+            android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
             android:id="@+id/buttonOutdoors" />
 
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/cat_sports"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/cat_button_height"
             style="@style/CategoryButton"
             android:id="@+id/buttonSports" />
 
