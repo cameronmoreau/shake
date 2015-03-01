@@ -2,9 +2,11 @@ package mobi.idappthat.shake;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class LoginActivity extends Activity {
@@ -19,15 +21,17 @@ public class LoginActivity extends Activity {
         SharedPreferences mData;
         mData = getSharedPreferences(DATA_FILE, MODE_PRIVATE);
 
+        Typeface mTypeface = Typeface.createFromAsset(getAssets(), "pea_2.ttf");
+        TextView mTextView = (TextView) findViewById(R.id.text);
+        mTextView.setTypeface(mTypeface);
+
         //Check if user has already logged in
         if (savedInstanceState == null && mData.getString(KEY_AUTH, "false").equals("false")) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new LoginFragment())
                     .commit();
         } else {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, )
-                    .commit();
+
         }
     }
 
