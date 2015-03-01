@@ -39,7 +39,7 @@ import mobi.idappthat.shake.R;
 public class MainFragment extends Fragment implements
         View.OnClickListener, GoogleMap.OnMapLoadedCallback, LocationListener {
 
-    private ImageButton ibFood, ibFun, ibSports, ibOutdoors, ibHobbies, ibShopping;
+    private ImageButton ibDining, ibFun, ibSports, ibOutdoors, ibHobbies, ibTravel;
     private GoogleMap map;
     private ImageButton bShake;
     private Context context;
@@ -56,12 +56,12 @@ public class MainFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         context = view.getContext();
 
-        ibFood = (ImageButton) view.findViewById(R.id.buttonFood);
+        ibDining = (ImageButton) view.findViewById(R.id.buttonDining);
         ibHobbies = (ImageButton) view.findViewById(R.id.buttonHobbies);
         ibSports = (ImageButton) view.findViewById(R.id.buttonSports);
         ibOutdoors = (ImageButton) view.findViewById(R.id.buttonOutdoors);
         ibFun = (ImageButton) view.findViewById(R.id.buttonFun);
-        ibShopping = (ImageButton) view.findViewById(R.id.buttonShopping);
+        ibTravel = (ImageButton) view.findViewById(R.id.buttonTravel);
 
         bShake = (ImageButton) view.findViewById(R.id.buttonShake);
 
@@ -77,12 +77,12 @@ public class MainFragment extends Fragment implements
         provider = locationManager.getBestProvider(criteria, false);
         location = locationManager.getLastKnownLocation(provider);
 
-        ibFood.setOnClickListener(this);
+        ibDining.setOnClickListener(this);
         ibHobbies.setOnClickListener(this);
         ibSports.setOnClickListener(this);
         ibOutdoors.setOnClickListener(this);
         ibFun.setOnClickListener(this);
-        ibShopping.setOnClickListener(this);
+        ibTravel.setOnClickListener(this);
         bShake.setOnClickListener(this);
 
 
@@ -95,17 +95,36 @@ public class MainFragment extends Fragment implements
 
     @Override
     public void onClick(View v) {
+        Intent i = new Intent(context, CategoryActivity.class);
         switch (v.getId()) {
             case R.id.buttonShake:
-                //doJsonStuff();
-                Intent i = new Intent(context, CategoryActivity.class);
+                doJsonStuff();
+                break;
+            case R.id.buttonHobbies:
                 i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.HOBBIES);
                 startActivity(i);
                 break;
-            case R.id.buttonHobbies:
-                /*Intent i = new Intent(context, CategoryActivity.class);
-                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.HOBBIES);*/
+            case R.id.buttonTravel:
+                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.TRAVEL);
+                startActivity(i);
                 break;
+            case R.id.buttonDining:
+                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.DINING);
+                startActivity(i);
+                break;
+            case R.id.buttonFun:
+                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.FUN);
+                startActivity(i);
+                break;
+            case R.id.buttonOutdoors:
+                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.OUTDOORS);
+                startActivity(i);
+                break;
+            case R.id.buttonSports:
+                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.SPORTS);
+                startActivity(i);
+                break;
+
         }
     }
 

@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import mobi.idappthat.shake.Activity.CategoryActivity;
 import mobi.idappthat.shake.Adapter.PimpinListViewAdapter;
 import mobi.idappthat.shake.ListView.GeneralListItem;
 import mobi.idappthat.shake.ListView.PimpinListItem;
@@ -68,6 +70,9 @@ public class GeneralCategoryFragment extends Fragment {
 
         arrayAdapter = new PimpinListViewAdapter(context, listItems);
         lv.setAdapter(arrayAdapter);
+
+        int type = getActivity().getIntent().getIntExtra(CategoryActivity.CATEGORY_TYPE, 1);
+        Toast.makeText(context, "type: " + type, Toast.LENGTH_SHORT).show();
 
         return view;
     }
