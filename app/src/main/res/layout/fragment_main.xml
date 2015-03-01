@@ -4,6 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Image later"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/buttonShake" />
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.google.android.gms.maps.MapFragment"/>
+
+    </FrameLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -14,6 +34,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/CategoryButton"
             android:id="@+id/buttonFood" />
 
         <ImageButton
@@ -21,6 +42,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/CategoryButton"
             android:id="@+id/buttonEntertainment" />
 
         <ImageButton
@@ -28,6 +50,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/CategoryButton"
             android:id="@+id/buttonSports" />
     </LinearLayout>
 
@@ -41,6 +64,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/CategoryButton"
             android:id="@+id/buttonOutdoors" />
 
         <ImageButton
@@ -48,6 +72,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/CategoryButton"
             android:id="@+id/buttonNightlife" />
 
         <ImageButton
@@ -55,7 +80,9 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/CategoryButton"
             android:id="@+id/buttonShopping" />
 
     </LinearLayout>
+
 </LinearLayout>

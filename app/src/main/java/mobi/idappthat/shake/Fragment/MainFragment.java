@@ -3,12 +3,30 @@ package mobi.idappthat.shake.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+<<<<<<< HEAD
+=======
+import android.provider.SyncStateContract;
+import android.support.v4.app.Fragment;
+>>>>>>> origin
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import mobi.idappthat.shake.Activity.MainActivity;
 import mobi.idappthat.shake.R;
@@ -16,16 +34,24 @@ import mobi.idappthat.shake.R;
 /**
  * Created by Cameron on 2/28/15.
  */
-public class MainFragment extends Fragment implements View.OnClickListener {
+public class MainFragment extends Fragment implements
+        View.OnClickListener, GoogleMap.OnMapLoadedCallback, LocationListener {
 
     private ImageButton ibFood, ibEntertainment, ibSports, ibOutdoors, ibNightlife, ibShopping;
+    private GoogleMap map;
+    private Button bShake;
     private Context context;
+
+    private LocationManager locationManager;
+    private Location location;
+
+    private String provider;
 
     public MainFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         context = view.getContext();
 
         ibFood = (ImageButton) view.findViewById(R.id.buttonFood);
@@ -35,14 +61,39 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         ibNightlife = (ImageButton) view.findViewById(R.id.buttonNightlife);
         ibShopping = (ImageButton) view.findViewById(R.id.buttonShopping);
 
+        bShake = (Button) view.findViewById(R.id.buttonShake);
+
+        if(map == null) {
+            map = ((MapFragment) getActivity().getFragmentManager()
+                    .findFragmentById(R.id.map)).getMap();
+
+            map.setOnMapLoadedCallback(this);
+        }
+
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        location = locationManager.getLastKnownLocation(provider);
+
         ibFood.setOnClickListener(this);
         ibEntertainment.setOnClickListener(this);
         ibSports.setOnClickListener(this);
         ibOutdoors.setOnClickListener(this);
         ibNightlife.setOnClickListener(this);
         ibShopping.setOnClickListener(this);
+        bShake.setOnClickListener(this);
 
         return view;
+    }
+
+    private void centerMapOnMyLocation() {
+
+
+        /*if (location != null) {
+            myLocation = new LatLng(location.getLatitude(),
+                    location.getLongitude());
+        }*/
+        //map.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(myLocation, myLocation), 0));
     }
 
     @Override
@@ -53,5 +104,34 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 startActivity(i);
                 break;
         }
+    }
+
+    @Override
+    public void onMapLoaded() {
+        LatLng setLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(setLocation);
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 80));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

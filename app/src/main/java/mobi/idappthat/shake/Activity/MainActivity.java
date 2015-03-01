@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 import mobi.idappthat.shake.Fragment.LoginFragment;
+=======
+>>>>>>> origin
 import mobi.idappthat.shake.Fragment.MainFragment;
 import mobi.idappthat.shake.R;
 
@@ -34,11 +37,15 @@ public class MainActivity extends ActionBarActivity {
 
         //Check if user has already logged in
         if (savedInstanceState == null) {
+<<<<<<< HEAD
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new LoginFragment())
                     .commit();
         } else {
             getFragmentManager().beginTransaction()
+=======
+            getSupportFragmentManager().beginTransaction()
+>>>>>>> origin
                     .add(R.id.container, new MainFragment())
                     .commit();
         }
