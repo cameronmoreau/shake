@@ -4,15 +4,19 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -29,15 +33,17 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.squareup.seismic.ShakeDetector;
 
 import mobi.idappthat.shake.Activity.CategoryActivity;
+import mobi.idappthat.shake.Model.Category;
 import mobi.idappthat.shake.R;
 
 /**
  * Created by Cameron on 2/28/15.
  */
 public class MainFragment extends Fragment implements
-        View.OnClickListener, GoogleMap.OnMapLoadedCallback, LocationListener {
+        View.OnClickListener, GoogleMap.OnMapLoadedCallback, LocationListener, ShakeDetector.Listener {
 
     private ImageButton ibDining, ibFun, ibSports, ibOutdoors, ibHobbies, ibTravel;
     private GoogleMap map;
@@ -46,6 +52,7 @@ public class MainFragment extends Fragment implements
 
     private LocationManager locationManager;
     private Location location;
+    private Animation spinAnimation;
 
     private String provider;
 
@@ -85,10 +92,16 @@ public class MainFragment extends Fragment implements
         ibTravel.setOnClickListener(this);
         bShake.setOnClickListener(this);
 
+        spinAnimation = AnimationUtils.loadAnimation(context, R.anim.cool_spin);
+
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String fbId = sharedPref.getString(getString(R.string.pref_facebook_id), "");
         Toast.makeText(context, fbId, Toast.LENGTH_SHORT).show();
+
+        SensorManager sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+        ShakeDetector sD = new ShakeDetector(this);
+        sD.start(sensorManager);
 
         return view;
     }
@@ -101,27 +114,27 @@ public class MainFragment extends Fragment implements
                 doJsonStuff();
                 break;
             case R.id.buttonHobbies:
-                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.HOBBIES);
+                i.putExtra(Category.CATEGORY_TYPE, Category.HOBBIES);
                 startActivity(i);
                 break;
             case R.id.buttonTravel:
-                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.TRAVEL);
+                i.putExtra(Category.CATEGORY_TYPE, Category.TRAVEL);
                 startActivity(i);
                 break;
             case R.id.buttonDining:
-                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.DINING);
+                i.putExtra(Category.CATEGORY_TYPE, Category.DINING);
                 startActivity(i);
                 break;
             case R.id.buttonFun:
-                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.FUN);
+                i.putExtra(Category.CATEGORY_TYPE, Category.FUN);
                 startActivity(i);
                 break;
             case R.id.buttonOutdoors:
-                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.OUTDOORS);
+                i.putExtra(Category.CATEGORY_TYPE, Category.OUTDOORS);
                 startActivity(i);
                 break;
             case R.id.buttonSports:
-                i.putExtra(CategoryActivity.CATEGORY_TYPE, CategoryActivity.SPORTS);
+                i.putExtra(Category.CATEGORY_TYPE, Category.SPORTS);
                 startActivity(i);
                 break;
 
@@ -183,5 +196,19 @@ public class MainFragment extends Fragment implements
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public void hearShake() {
+        Toast.makeText(context, "SHAKE", Toast.LENGTH_SHORT).show();
+
+        Handler handler = new Handler();
+        bShake.startAnimation(spinAnimation);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                bShake.clearAnimation();
+            }
+        }, 2000);
     }
 }

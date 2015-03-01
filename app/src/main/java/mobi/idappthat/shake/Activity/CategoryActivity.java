@@ -11,15 +11,6 @@ import mobi.idappthat.shake.R;
  */
 public class CategoryActivity extends ActionBarActivity {
 
-    public static final int HOBBIES = 1;
-    public static final int TRAVEL = 2;
-    public static final int DINING = 3;
-    public static final int FUN = 4;
-    public static final int OUTDOORS = 5;
-    public static final int SPORTS = 6;
-
-    public static final String CATEGORY_TYPE = "category";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

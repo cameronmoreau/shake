@@ -41,7 +41,7 @@
             android:id="@+id/buttonHobbies" />
 
         <ImageButton
-            android:src="@mipmap/cat_shopping"
+            android:src="@mipmap/cat_travel"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="@dimen/cat_button_height"
@@ -49,7 +49,7 @@
             android:id="@+id/buttonTravel" />
 
         <ImageButton
-            android:src="@mipmap/cat_food"
+            android:src="@mipmap/cat_dining"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="@dimen/cat_button_height"
