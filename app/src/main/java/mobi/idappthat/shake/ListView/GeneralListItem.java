@@ -75,7 +75,6 @@ public class GeneralListItem implements PimpinListItem  {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, ViewActivity.class);
-                //i.putExtra(ViewActivity.EVENT_ID, item.getId());
                 context.startActivity(i);
             }
         });
