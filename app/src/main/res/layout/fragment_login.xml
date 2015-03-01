@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -56,16 +55,5 @@
 
 
     </LinearLayout>
-=======
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin">
-
-    <Button
-        android:id="@+id/buttonSkip"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Skip"/>
->>>>>>> bea6ea0d07342cda1cede7868f84ba256aad7af6
 
 </LinearLayout>

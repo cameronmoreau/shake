@@ -1,4 +1,4 @@
-package mobi.idappthat.shake;
+package mobi.idappthat.shake.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -20,6 +20,8 @@ import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
 
+import mobi.idappthat.shake.R;
+
 
 public class LoginFragment extends Fragment implements Session.StatusCallback, Request.GraphUserCallback {
 
@@ -29,8 +31,8 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
 
     public static final String DATA_FILE = "DATA_FILE";
     public static final String KEY_AUTH = "KEY_AUTH";
-    public static final String NAME = "name";
-    public static final String USERID = "userid";
+    public static final String NAME = "NAME";
+    public static final String USERID = "USERID";
 
     public LoginFragment() {}
 
@@ -41,9 +43,7 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
-        //TODO figure out what we need
         authButton.setReadPermissions(Arrays.asList("email", "public_profile"));
-
         return view;
     }
 
@@ -51,7 +51,7 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         uiHelper = new UiLifecycleHelper(getActivity(), this);
-        uiHelper.onCreate(savedInstanceState);
+        //uiHelper.onCreate(savedInstanceState);
 
         mData = getActivity().getSharedPreferences(DATA_FILE, Context.MODE_PRIVATE);
     }
@@ -111,7 +111,8 @@ public class LoginFragment extends Fragment implements Session.StatusCallback, R
         if (response != null) {
             SharedPreferences.Editor editor = mData.edit();
             editor.putString(KEY_AUTH, "true");
-            //USE graphUSER.get[somthing] to get data from faceboook
+            editor.putString(USERID, graphUser.getId());
+            editor.putString(NAME, graphUser.getUsername());
             editor.apply();
         }
     }

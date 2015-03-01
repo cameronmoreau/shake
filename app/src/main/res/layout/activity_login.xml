@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
+
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     tools:ignore="MergeRootFrame" />
-=======
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
->>>>>>> bea6ea0d07342cda1cede7868f84ba256aad7af6
