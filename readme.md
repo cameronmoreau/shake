@@ -3,11 +3,11 @@
 
 <h3>Team</h3>
 <ul>
-	<li>Cameron <small>Android Dev</small></li>
-	<li>Garret <small>NodeJS Dev</small></li>
-	<li>Reece <small>Designer</small></li>
-	<li>Kevin <small>Android &amp; Web</small></li>
-	<li>Anthony <small>Android &amp; Web</small></li>
+	<li>Cameron <em>Android Dev</em></li>
+	<li>Garret <em>NodeJS Dev</em></li>
+	<li>Reece <em>Designer</em></li>
+	<li>Kevin <em>Android &amp; Web</em></li>
+	<li>Anthony <em>Android &amp; Web</em></li>
 </ul>
 
 <img src="http://i.imgur.com/HTMq32j.png" alt="App">
