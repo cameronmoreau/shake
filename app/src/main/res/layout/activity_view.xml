@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_directions"
                 style="@style/BetterButton"
+                android:id="@+id/bDirections"
                 android:text="Get Directions"/>
 
         </LinearLayout>
@@ -39,45 +40,22 @@
             android:padding="@dimen/activity_horizontal_margin"
             android:layout_height="fill_parent">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: $$"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:id="@+id/tvTitle" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView"
-                    android:src="@mipmap/ic_launcher"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:text="Movie 1"
-                    android:id="@+id/textView" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView2"
-                    android:src="@mipmap/ic_launcher"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Movie 2"
-                    android:padding="20dp"
-                    android:id="@+id/textView2" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pa-pa-price"
+                android:id="@+id/tvPrice" />
 
             <Button
+                android:layout_marginTop="60dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_bf"

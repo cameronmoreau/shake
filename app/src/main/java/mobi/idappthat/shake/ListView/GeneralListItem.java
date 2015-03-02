@@ -23,6 +23,7 @@ import java.net.URL;
 
 import mobi.idappthat.shake.Activity.ViewActivity;
 import mobi.idappthat.shake.Extra.CircleTransform;
+import mobi.idappthat.shake.Model.Category;
 import mobi.idappthat.shake.Model.GeneralItem;
 import mobi.idappthat.shake.R;
 
@@ -94,6 +95,7 @@ public class GeneralListItem implements PimpinListItem  {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, ViewActivity.class);
+                i.putExtra(Category.CATEGORY_TYPE, item.getType());
                 context.startActivity(i);
             }
         });

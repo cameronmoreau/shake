@@ -50,6 +50,7 @@ import java.util.Map;
 
 import mobi.idappthat.shake.Activity.CategoryActivity;
 import mobi.idappthat.shake.Activity.MainActivity;
+import mobi.idappthat.shake.Activity.ViewActivity;
 import mobi.idappthat.shake.Adapter.PimpinListViewAdapter;
 import mobi.idappthat.shake.ListView.GeneralListItem;
 import mobi.idappthat.shake.ListView.PimpinListItem;
@@ -207,20 +208,15 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonArray = response.getJSONArray("results");
+                    JSONObject jsonArray = response.getJSONObject("results");
 
-                    for(int i = 0; i < jsonArray.length(); i++) {
-                        Log.e("TEST", jsonArray.getJSONObject(i).toString());
-                        /*GeneralItem item = new GeneralItem(
-                                jsonArray.getJSONObject(i).getString("name"),
-                                jsonArray.getJSONObject(i).getInt("rating"),
-                                2,
-                                jsonArray.getJSONObject(i).getString("image")
-                        );
-                        listItems.add(new GeneralListItem(context, item));*/
-                        Intent ii = new Intent(context, Activity.class);
-                        startActivity(ii);
-                    }
+                    Log.e("TEST", jsonArray.toString());
+
+                    Intent ii = new Intent(context, ViewActivity.class);
+                    ii.putExtra(Category.CATEGORY_TYPE, Category.TRAVEL);
+                    ii.putExtra("title", jsonArray.getString("origin"));
+                    ii.putExtra("price", jsonArray.getDouble("price"));
+                    startActivity(ii);
 
                     arrayAdapter = new PimpinListViewAdapter(context, listItems);
                     lv.setAdapter(arrayAdapter);
@@ -275,7 +271,8 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
                                 jsonArray.getJSONObject(i).getString("name"),
                                 jsonArray.getJSONObject(i).getInt("rating"),
                                 2,
-                                jsonArray.getJSONObject(i).getString("image")
+                                jsonArray.getJSONObject(i).getString("image"),
+                                Category.DINING
                         );
                         listItems.add(new GeneralListItem(context, item));
                     }
@@ -332,7 +329,8 @@ public class GeneralCategoryFragment extends Fragment implements View.OnClickLis
                                 jsonArray.getJSONObject(i).getString("name"),
                                 0,
                                 2,
-                                jsonArray.getJSONObject(i).getString("poster")
+                                jsonArray.getJSONObject(i).getString("poster"),
+                                Category.FUN
                         );
                         listItems.add(new GeneralListItem(context, item));
                     }

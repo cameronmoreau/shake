@@ -13,17 +13,20 @@ public class GeneralItem {
     private String name, imageUrl;
     private int rating;
     private int price;
+    private int type;
 
     public GeneralItem() {
 
     }
 
-    public GeneralItem(String name, int rating, int price, String imageUrl) {
+    public GeneralItem(String name, int rating, int price, String imageUrl, int type) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.rating = rating;
         this.price = price;
     }
+
+    public int getType() { return type; }
 
     public String getImageUrl() { return imageUrl; }
 
